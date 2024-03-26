@@ -21,13 +21,14 @@
             <ErrorMessage name="phone" class="error-feedback" />
         </div>
         <div class="form-group form-check">
-            <Field name="favorite" type="text" class="form-control" v-model="contactLocal.favorite" />
+            <Field name="favorite" type="checkbox" class="form-check-input" v-model="contactLocal.favorite" />
             <label for="favorite" class="form-check-label">
                 <strong>Liên hệ yêu thích</strong>
             </label>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary">Lưu</button>
+            <button class="btn btn-primary" v-if="!contactLocal._id" @click="addContact">Lưu</button>
+            <button class="btn btn-primary" v-if="contactLocal._id">Lưu</button>
             <button class="ml-2 btn btn-danger" v-if="contactLocal._id" type="button"
                 @click="deleteContact">Xóa</button>
         </div>
@@ -43,7 +44,7 @@ export default {
         Field,
         ErrorMessage,
     },
-    emits: ["submit:contact", "delete:contact"],
+    emits: ["submit:contact", "delete:contact", "add:contact"],
     props: {
         contact: { type: Object, required: true }
     },
@@ -66,6 +67,9 @@ export default {
         deleteContact() {
             this.$emit("delete:contact", this.contactLocal.id);
         },
+        addContact() {
+            this.$emit("add:contact", this.contactLocal);
+        }
     },
 };
 </script>
